@@ -4,9 +4,9 @@ from sqlalchemy import create_engine, inspect
 from crewai_tools import tool
 from crewai import Agent, Task, Crew, Process
 from config import llm, db
+import config
 
-# Database Engine Configuration
-db_engine = db
+db_engine = create_engine(config.DB_URI)
 
 
 @tool("detect_outliers_with_isolation_forest")
@@ -101,7 +101,7 @@ outlier_detection_task = Task(
 )
 
 # Crew Definition
-crew = Crew(
+ml_crew = Crew(
     agents=[advanced_validator],
     tasks=[schema_validation_task, outlier_detection_task],
     process=Process.sequential,
@@ -111,6 +111,6 @@ crew = Crew(
 # Main Execution
 if __name__ == "__main__":
     print("🚀 Starting Schema and Data Validation Workflow...")
-    result = crew.kickoff()
+    result = ml_crew.kickoff()
     print(result)
     print("✅ Workflow Completed Successfully!")
