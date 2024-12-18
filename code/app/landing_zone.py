@@ -27,6 +27,7 @@ def export_tables_to_landing_zone(folder_path: str) -> str:
 
         # Export each table to CSV
         for table in tables:
+            print(table)
             query = f"SELECT * FROM {table}"
             df = pd.read_sql(query, db_engine)
             file_path = os.path.join(folder_path, f"{table}.csv")

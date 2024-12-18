@@ -1,8 +1,10 @@
 import yaml
 from crewai import Agent, Crew, Task, Process
 from tools import list_tables, tables_schema, execute_sql, check_sql
-from config import llm
+import config
 import time
+
+llm = config.llm
 
 def rate_limit_guard():
     print("Rate limit hit. Retrying in 60 seconds...")
