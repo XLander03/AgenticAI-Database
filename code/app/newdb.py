@@ -69,7 +69,7 @@ save_corrected_db = Task(
     config={"new_db_name": "fixed_airportdb"},
 )
 
-crew = Crew(
+new_db_crew = Crew(
     agents=[database_expert],
     tasks=[save_corrected_db],
     process=Process.sequential,
@@ -78,6 +78,6 @@ crew = Crew(
 
 if __name__ == "__main__":
     print("🚀 Starting New Database Creation Pipeline...")
-    result = crew.kickoff()
+    result = new_db_crew.kickoff()
     print(result)
     print("✅ New database creation pipeline completed successfully!")

@@ -64,7 +64,7 @@ tasks:
       - List of all tables.
       - Schema and up to 3 sample rows for each table.
     agent: sql_dev
-
+    context: []
 
   - name: validate_data
     description: "Detect and validate data issues like missing values, duplicates, and inconsistencies."
@@ -96,21 +96,9 @@ tasks:
     context: [validate_data, validate_schema]
 
   - name: apply_ground_truth
-    description: "Read user-modified schema from a CSV file and apply it as ground truth for SQL generation."
+    description: "Read user-modified schema from a CSV file and apply it as ground truth for SQL generation. Use `./schema.csv` as the schema file."
     expected_output: "Ground truth schema extracted and passed for SQL generation."
     agent: prompt_modifier
-    config:
-      file_path: "./updated_schema.csv"
     context: [generate_sql]
+    config: {schema_file: "./schema.csv"}
 
-  - name: save_corrected_db
-    description: "Save the corrected database into a new database named 'fixed_<original_database>'."
-    expected_output: "The corrected database has been saved successfully."
-    agent: database_expert
-    config:
-      new_db_name: "fixed_airportdb"
-      source_db_name: "airportdb"
-      user: "root"
-      password: "9009"
-      host: "localhost"
-    context: [generate_fix_sql]

@@ -50,36 +50,3 @@ def read_schema_csv(file_path: str) -> dict:
         return {"status": "error", "message": str(e)}
 
 
-@tool("copy_database")
-def copy_database(new_db_name: str, source_db_name: str, user: str, password: str, host: str = "localhost") -> str:
-    """
-    Creates a full copy of the source database into a new database using mysqldump.
-
-    Args:
-        new_db_name (str): The name of the new database.
-        source_db_name (str): The name of the source database.
-        user (str): Database username.
-        password (str): Database password.
-        host (str): Database host.
-
-    Returns:
-        str: Success or error message.
-    """
-    try:
-        # Step 1: Create the new database
-        create_db_command = f"mysql -u{user} -p{password} -h {host} -e 'CREATE DATABASE {new_db_name};'"
-        subprocess.run(create_db_command, shell=True, check=True)
-        print(f"✅ Database '{new_db_name}' created successfully!")
-
-        # Step 2: Use mysqldump to copy the data
-        dump_command = (
-            f"mysqldump -u{user} -p{password} -h {host} {source_db_name} "
-            f"| mysql -u{user} -p{password} -h {host} {new_db_name}"
-        )
-        subprocess.run(dump_command, shell=True, check=True)
-        print(f"✅ Database '{source_db_name}' copied successfully to '{new_db_name}'!")
-
-        return f"✅ The database has been successfully copied to '{new_db_name}'."
-    except subprocess.CalledProcessError as e:
-        return f"❌ Error copying the database: {str(e)}"
-

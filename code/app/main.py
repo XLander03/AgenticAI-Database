@@ -31,14 +31,14 @@ for agent_config in config["agents"]:
 
 tasks = []
 for task_config in config["tasks"]:
-    agent_name = task_config["agent"] 
+    agent_name = task_config["agent"]
     tasks.append(Task(
         description=task_config["description"],
         expected_output=task_config["expected_output"],
         agent=agents[agent_name],
-        context=task_config.get("context", {}),
+        config=task_config.get("config", {}),
+        #context=task_config.get("context", []),
     ))
-
 
 crew = Crew(
     agents=list(agents.values()),

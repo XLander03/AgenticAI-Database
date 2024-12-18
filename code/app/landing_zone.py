@@ -60,7 +60,7 @@ data_landing_zone_task = Task(
         - Path to each exported CSV file
         """),
     agent=data_extraction_agent,
-    inputs={"folder_path": "./landing_zone"}  # Default folder path for Landing Zone
+    config={"folder_path": "./landing_zone"}  # Default folder path for Landing Zone
 )
 
 # Crew Definition
