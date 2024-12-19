@@ -1,9 +1,6 @@
-import os
-import subprocess
 from crewai import Agent, Task, Crew, Process
 from crewai_tools import tool
 from config import llm 
-import os
 from sqlalchemy import create_engine, text, inspect
 from crewai_tools import tool
 import config

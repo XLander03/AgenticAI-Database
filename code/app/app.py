@@ -12,7 +12,6 @@ async def main(message: cl.Message):
     await run_ml_checks_workflow()
     await start_new_db_workflow()
 
-
 @cl.step(type="run", name="Data Landing Zone Workflow")
 async def start_landing_zone_workflow():
     """Run the Data Landing Zone Workflow."""
@@ -24,14 +23,14 @@ async def start_landing_zone_workflow():
         await cl.Message(content=f"❌ Error in Data Landing Zone Creation: {str(e)}").send()
         return  # Stop further workflows if Landing Zone fails
 
-
 @cl.step(type="run", name="Main Validation Workflow")
 async def run_validation_workflow(human_query: str):
     """Run the main validation workflow after receiving user input."""
-    await cl.Message(content="💬 Provide the action to be executed on the database.").send()
+    # await cl.Message(content="💬 Provide the action to be executed on the database.").send()
     try:
-        result = main_crew.kickoff(inputs={"query": human_query})
-        await cl.Message(content=f"✅ Main Workflow Completed Successfully!\n\n{result}").send()
+        async_function = cl.make_async(main_crew.kickoff)
+        result = await async_function({"query": human_query})
+        await cl.Message(content=f"✅ Database Validation Completed Successfully!\n\n{result}").send()
     except Exception as e:
         await cl.Message(content=f"❌ Error in Main Workflow: {str(e)}").send()
         rate_limit_guard()  # Retry on failure
@@ -78,3 +77,7 @@ async def start_new_db_workflow():
             await cl.Message(content=f"❌ Retry Failed for New Database Creation: {str(retry_error)}").send()
 
     await cl.Message(content="🎉 All workflows completed successfully!").send()
+
+if __name__ == '__main__':
+    while True:
+        pass
