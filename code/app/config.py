@@ -1,19 +1,29 @@
 import os
 from sqlalchemy import create_engine, inspect
 from langchain_community.utilities.sql_database import SQLDatabase
-# Required
-os.environ["GROQ_API_KEY"] = "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"
-DB_URI = "mysql+mysqlconnector://root:9009@localhost:3306/new_airportdb"
-
-db = SQLDatabase.from_uri(DB_URI)
-#llm = "groq/llama-3.3-70b-versatile"
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from crewai import LLM
 
-AZURE_API_KEY="e4ea23b7b3ba480bba8737c165d172b2"
-AZURE_API_BASE="https://cmhq-openai.openai.azure.com/"
-AZURE_API_VERSION="2024-08-01-preview"
-os.environ['AZURE_API_KEY'] = AZURE_API_KEY
-os.environ["AZURE_API_BASE"] = AZURE_API_BASE
-os.environ["AZURE_API_VERSION"] = AZURE_API_VERSION
+class Settings(BaseSettings):
+    groq_api_key: str
+    db_uri: str
+    azure_api_key: str
+    azure_api_base: str
+    azure_api_version: str
 
-llm = LLM(model="azure/gpt4O", api_version=AZURE_API_VERSION, base_url=AZURE_API_BASE)
+    class Config:
+        env_file = f'.env.{os.getenv("ENVIRONMENT", "development")}'
+        extra = "ignore"
+
+settings = Settings()
+
+os.environ["GROQ_API_KEY"] = settings.groq_api_key
+DB_URI = settings.db_uri
+
+db = SQLDatabase.from_uri(DB_URI)
+
+os.environ['AZURE_API_KEY'] = settings.azure_api_key
+os.environ["AZURE_API_BASE"] = settings.azure_api_base
+os.environ["AZURE_API_VERSION"] = settings.azure_api_version
+
+llm = LLM(model="azure/gpt4O", api_version=settings.azure_api_version, base_url=settings.azure_api_base)
