@@ -8,7 +8,6 @@ from langchain_community.tools.sql_database.tool import (
 from crewai_tools import tool
 from config import  db, llm
 import pandas as pd
-import subprocess
 
 @tool("list_tables")
 def list_tables() -> str:
