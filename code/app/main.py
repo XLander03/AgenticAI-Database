@@ -37,7 +37,7 @@ data_validator = Agent(
     goal="Detect and validate data issues and provide detailed quality statistics.",
     backstory=yaml_config["agents"]["data_validator"]["backstory"],
     llm=llm,
-    tools=[],  # Define tools specific to this agent if any
+    tools=[],  
     allow_delegation=False,
 )
 
@@ -47,7 +47,7 @@ schema_validator = Agent(
     goal="Ensure schema relationships are logically consistent and aligned with real-world business rules.",
     backstory=yaml_config["agents"]["schema_validator"]["backstory"],
     llm=llm,
-    tools=[tools["list_tables"], tools["tables_schema"]],  # Define tools specific to this agent if any
+    tools=[tools["list_tables"], tools["tables_schema"]],  
     allow_delegation=False,
 )
 
@@ -77,7 +77,7 @@ report_writer = Agent(
     goal="Summarize the results of schema and data validation and the database fixes into actionable insights.",
     backstory=yaml_config["agents"]["report_writer"]["backstory"],
     llm=llm,
-    tools=[],  # Define tools specific to this agent if any
+    tools=[],  
     allow_delegation=False,
 )
 

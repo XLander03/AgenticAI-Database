@@ -97,7 +97,7 @@ outlier_detection_task = Task(
     description="Detect outliers in numerical data from a specific table using Isolation Forest.",
     expected_output="Summary of detected outliers using Isolation Forest.",
     agent=advanced_validator,
-    config={"table_name": "passenger"}  # Example table for analysis
+    config={"table_name": "passenger"} 
 )
 
 # Crew Definition

@@ -21,12 +21,12 @@ async def start_landing_zone_workflow():
         await cl.Message(content=f"✅ Data Landing Zone Creation Completed Successfully!\n\n{result}").send()
     except Exception as e:
         await cl.Message(content=f"❌ Error in Data Landing Zone Creation: {str(e)}").send()
-        return  # Stop further workflows if Landing Zone fails
+        return  
 
 @cl.step(type="run", name="Main Validation Workflow")
 async def run_validation_workflow(human_query: str):
     """Run the main validation workflow after receiving user input."""
-    # await cl.Message(content="💬 Provide the action to be executed on the database.").send()
+
     try:
         async_function = cl.make_async(main_crew.kickoff)
         result = await async_function({"query": human_query})
@@ -39,7 +39,7 @@ async def run_validation_workflow(human_query: str):
             await cl.Message(content=f"✅ Database Validation Completed Successfully After Retry!\n\n{result}").send()
         except Exception as retry_error:
             await cl.Message(content=f"❌ Retry Failed for Main Workflow: {str(retry_error)}").send()
-            return  # Stop further workflows if Validation fails
+            return 
 
 
 @cl.step(type="run", name="ML Checks Workflow")
@@ -57,7 +57,7 @@ async def run_ml_checks_workflow():
             await cl.Message(content=f"✅ Machine Learning Checks Completed Successfully After Retry!\n\n{result}").send()
         except Exception as retry_error:
             await cl.Message(content=f"❌ Retry Failed for Machine Learning Checks: {str(retry_error)}").send()
-            return  # Stop further workflows if ML Checks fail
+            return  
 
 
 @cl.step(type="run", name="New Database Workflow")
@@ -69,7 +69,7 @@ async def start_new_db_workflow():
         await cl.Message(content=f"✅ New Database Creation Completed Successfully!\n\n{result}").send()
     except Exception as e:
         await cl.Message(content=f"❌ Error in New Database Creation: {str(e)}").send()
-        rate_limit_guard()  # Retry on failure
+        rate_limit_guard()  
         try:
             result = new_db_crew.kickoff()
             await cl.Message(content=f"✅ New Database Creation Completed Successfully After Retry!\n\n{result}").send()
