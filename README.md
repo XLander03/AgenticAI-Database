@@ -97,7 +97,7 @@ project/
 ### Running the Application
 Start the Chainlit server:
 ```bash
-chainlit run app/main.py
+chainlit run app.py --headless --port 8000
 ```
 Interact with the workflows through the Chainlit interface.
 
