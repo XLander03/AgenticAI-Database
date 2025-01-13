@@ -137,16 +137,5 @@ crew = Crew(
     output_log_file="crew.log",
 )
 
-"""
-if __name__ == "__main__":
-    inputs = {"query": "Validate the airportdb database"}
-    try:
-        result = crew.kickoff(inputs=inputs)
-    except Exception as e:
-        print(f"Error: {e}")
-        rate_limit_guard()
-        result = crew.kickoff(inputs=inputs)
-    print("Workflow completed successfully!")
-"""
 
 

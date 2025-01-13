@@ -21,7 +21,7 @@ async def start_landing_zone_workflow():
         await cl.Message(content=f"✅ Data Landing Zone Creation Completed Successfully!\n\n{result}").send()
     except Exception as e:
         await cl.Message(content=f"❌ Error in Data Landing Zone Creation: {str(e)}").send()
-        return  
+        return
 
 @cl.step(type="run", name="Main Validation Workflow")
 async def run_validation_workflow(human_query: str):

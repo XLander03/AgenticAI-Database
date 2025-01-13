@@ -48,4 +48,19 @@ def read_schema_csv(file_path: str) -> dict:
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
+@tool("load_csv_data")
+def load_csv_data(file_path: str) -> str:
+    """
+    Load and parse a CSV file into a Pandas DataFrame.
 
+    Args:
+        file_path (str): Path to the CSV file.
+
+    Returns:
+        str: Summary of the data loaded or an error message.
+    """
+    try:
+        df = pd.read_csv(file_path)
+        return f"✅ Successfully loaded {len(df)} rows from '{file_path}'."
+    except Exception as e:
+        return f"❌ Error loading CSV file '{file_path}': {str(e)}"
